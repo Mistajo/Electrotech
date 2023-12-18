@@ -1,0 +1,118 @@
+{% extends "themes/base_user.html.twig" %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block description %}ElectroTech, entreprise de ecommerce spécialisée dans la vente de produits electroménagers.
+{% endblock %}
+
+{% block keywords %}ElectroTech, Qui sommes-nous, Produits électroménagers, Curseur de riz, Machine à laver
+{% endblock %}
+
+{% block main %}
+	<div
+		class="container my-2">
+		<!-- Breadcrumb-->
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-5 my-4'>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.home.index')}}">Tableau de bord</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Mon Compte</li>
+			</ol>
+		</nav>
+		<!-- Fin Breadcrumb-->
+
+		<!-- Titre de la page-->
+		<h1 class="text-center my-3 display-5">Mon compte :
+			{{app.user.firstName}}</h1>
+		<!-- Fin Titre de la page-->
+
+		<!--Alerte Flash-->
+		<div class="col-md-6 mx-auto">
+			{% for message in app.flashes('success') %}
+				<div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		</div>
+		<!--Fin Alerte Flash-->
+
+		<!-- items à modifier-->
+		<div class="row d-flex justify-content-center align-items-center">
+
+
+			<div class="card mt-3 w-50">
+				<ul
+					class="list-group list-group-flush">
+
+					<!--Modification du nom-->
+					<li class="list-group-item d-flex justify-content-between">
+						<div class="my-2">
+							<strong>Nom :</strong>
+							<br>
+							{{user.lastName}}
+							{{user.firstname}}
+						</div>
+						<div class="my-2">
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-dark shadow" href="{{path('user.profile-edit-name.index')}}">Modifier</a>
+						</div>
+					</li>
+					<!--Fin Modification du nom-->
+
+					<!--Modification de l'email-->
+					<li class="list-group-item d-flex justify-content-between">
+						<div class="my-2">
+							<strong>Email :</strong>
+							<br>
+							{{user.email}}
+						</div>
+						<div class="my-2">
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-dark shadow" href="{{path('user.profile-edit-email.index')}}">Modifier</a>
+
+						</div>
+					</li>
+					<!-- Fin Modification de l'email-->
+
+					<!--Modification du mot de passe-->
+					<li class="list-group-item d-flex justify-content-between">
+						<div class="my-2">
+							<strong>Mot de passe :</strong>
+							<br>
+							************
+						</div>
+						<div class="my-2">
+							<a class="my-2 my-lg-0 mx-lg-2 btn btn-outline-dark shadow" href="{{path('user.profile-edit-password.index')}}">Modifier</a>
+						</div>
+					</li>
+					<!--Fin Modification du mot de passe-->
+
+					<!--Supression du compte-->
+					{% if "ROLE_SUPER_ADMIN" not in app.user.roles %}
+						<li class="list-group-item d-flex justify-content-between">
+							<div class="my-2">
+								<strong>Suppression du compte :</strong>
+								<br>
+								En cliquant sur le boutton supprimer votre compte, votre compte sera supprimé definitivement.
+							</div>
+							<div class="my-2">
+								<a onclick="event.preventDefault(); confirm('Attention!!! Voulez-vous vraiment supprimer votre compte ?') && document.querySelector('#delete-profile-form').submit();" href="#" class="my-2 my-lg-0 mx-lg-2 btn btn-outline-danger shadow">Supprimer votre compte</a>
+								<form id="delete-profile-form" method="POST" action="{{path('user.profile.delete')}}">
+									<input type="hidden" name="_method" value="DELETE">
+									<input type="hidden" name="csrf_token" value="{{csrf_token('profile-delete')}}">
+								</form>
+							</div>
+						</li>
+						<!--Fin Supression du compte-->
+					{% endif %}
+
+				</ul>
+			</div>
+		</div>
+
+
+		<!-- Fin items à modifier-->
+
+	</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "themes/base_user.html.twig" %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block description %}ElectroTech, entreprise de ecommerce spécialisée dans la vente de produits electroménagers.
+{% endblock %}
+
+{% block keywords %}ElectroTech, Qui sommes-nous, Produits électroménagers, Curseur de riz, Machine à laver
+{% endblock %}
+
+{% block main %}
+	<div
+		class="container my-2">
+
+		<!-- Titre de la page-->
+		<h1 class="text-center my-3 display-5">Modification de l'email :
+			{{app.user.firstName}}</h1>
+		<!-- Fin Titre de la page-->
+
+		<!-- Formulaire de modification de l'email-->
+		<div class="col-md-6 mx-auto shadow p-4 d-flex justify-content-center align-items-center my-5">
+			{{ form_start(form) }}
+			<div>
+				<p>Adresse e-mail actuelle :
+					{{app.user.email}}
+					<br>
+					Saisissez la nouvelle adresse e-mail que vous souhaitez associer à votre compte ci-dessous.</p>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="mb-3">
+						<label for="">
+							<strong>Nouvelle adresse E-mail :</strong>
+						</label>
+						<div class="text-danger">{{ form_errors(form.email) }}</div>
+						{{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+			</div>
+			<div>
+				<input formnovalidate type="submit" class="btn btn-primary" value="Enregistrer les modifications">
+			</div>
+			{{ form_end(form) }}
+		</div>
+		<!-- Fin Formulaire de modification de l'email-->
+	</div>
+{% endblock %}
