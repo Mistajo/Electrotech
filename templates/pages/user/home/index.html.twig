@@ -10,21 +10,24 @@
 {% endblock %}
 
 {% block main %}
-	<div class="container my-2">
+	<div
+		class="container my-2">
 
-		<! -- Titre de la page -->
+		<!-- Titre de la page -->
 		<h1 class="text-center my-3 display-5">Bonjour
 			{{app.user.firstName}}</h1>
 		<!-- Fin Titre de la page -->
 
-		<div class="row mt-5 d-flex justify-content-center align-items-center">
-			<! -- Card Du profile -->
+		<div
+			class="row mt-5 d-flex justify-content-center align-items-center">
+			<!-- Card Du profile -->
 			<div class="col-md-4">
 				<a href="{{path('user.profile.index')}}" class=' text-decoration-none'>
 					<div class="card mb-3" style="max-width: 540px;">
 						<div class="row g-0">
 							<div class="col-md-4">
-								<img src="{{asset('Images/Profile/Profile/image_modification_profile.png')}}" class="img-fluid rounded-start" alt="image_modification_profile.png">
+								<img src="{{asset('Images/Profile/Profile/image_modification_profile.png')}}" class="img-fluid" alt="image_modification_profile.png">
+
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">
@@ -38,23 +41,26 @@
 			</div>
 			<!-- Fin Card Du profile -->
 
+			<!-- Card Adresses -->
 			<div class="col-md-4">
-				<a href="" class=" text-decoration-none">
+				<a href="{{path('user.address.index')}}" class=" text-decoration-none">
+
 					<div class="card mb-3" style="max-width: 540px;">
 						<div class="row g-0">
 							<div class="col-md-4">
-								<img src="..." class="img-fluid rounded-start" alt="...">
+								<img src="{{asset('Images/Addresses/image_addresses.png')}}" class="img-fluid" alt="image_addresses.png">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">
-									<h5 class="card-title">Votre Profil</h5>
-									<p class="card-text">Modifier votre profil ou mot de passe, Supprimer votre compte.</p>
+									<h5 class="card-title">Adresses</h5>
+									<p class="card-text">Modifier les adresses et les préférences de livraison des commandes et des cadeaux.</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</a>
 			</div>
+			<!-- Fin Card Adresses -->
 
 		</div>
 	</div>
