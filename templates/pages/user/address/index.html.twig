@@ -11,9 +11,10 @@
 
 {% block main %}
 	<div
-		class="container my-2">
+		class="container my-3">
+
 		<!-- Breadcrumb-->
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-5 my-4'>
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-1 my-4'>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
 					<a href="{{path('user.home.index')}}">Tableau de bord</a>
@@ -24,7 +25,7 @@
 		<!-- Fin Breadcrumb-->
 
 		<!-- Titre de la page-->
-		<h1 class="text-center my-3 display-5">Vos adresses
+		<h1 class="my-3 display-5">Vos adresses
 		</h1>
 		<!-- Fin Titre de la page-->
 
@@ -38,18 +39,71 @@
 			{% endfor %}
 		</div>
 		<!--Fin Alerte Flash-->
-		<div class="col-md-4">
-			<a class=" text-decoration-none" href="">
-				<div class="card mb-3">
-					<div class="card-body text-center">
-						<i class="fa-solid fa-plus text-center-black mt-5"></i>
-						<div class=' d-flex justify-content-center align-items-center mt-5'>
-							<h5 class="card-title text-center-black  ">Ajouter une adresse</h5>
+
+		<div
+			class="row">
+			<!-- Card Creation nouvelle adresse-->
+			<div class="col-md-4">
+				<a class=" text-decoration-none" href="{{path('user.address.create')}}">
+					<div class="card mb-3 _card_adresses">
+						<div class="card-body text-center">
+							<i class="fa-solid fa-plus text-center-black mt-5"></i>
+							<div class=' d-flex justify-content-center align-items-center mt-5'>
+								<h5 class="card-title text-center-black  ">Ajouter une adresse</h5>
+							</div>
 						</div>
 					</div>
-				</div>
+				</a>
+			</div>
+			<!-- Fin Card Creation nouvelle adresse-->
 
-			</a>
+			<!-- Card Pour les nouvelles adresse -->
+			{% for address in addresses %}
+				<div class="col-md-4">
+					<div class="card mb-3 _card_adresses">
+						<div class="card-header bg-primary">
+							Featured
+						</div>
+						<div class="card-body">
+							<strong>
+								{{address.firstname}}
+								{{address.lastname}}
+							</strong>
+							<br>
+							{{address.address}}
+							{% if address.complement is not empty %}
+								<br>
+								{{address.Complement}}
+							{% endif %}
+							<br>
+							Numero de téléphone :
+							{{address.phone}}
+							<br>
+							{{address.city|upper}},{{address.postalCode}}
+							<br>
+							{{address.country}}
+							<br>
+							{{address.compagny}}
+						</div>
+
+						<!-- Boutton  -->
+						<div class="d-flex justify-content-between mx-2 my-2">
+							<a href="{{path('user.address.edit',{'id': address.id})}}" class="btn btn-primary">Modifier</a>
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette adresse?') && document.querySelector('#form_delete_address_{{address.id}}').submit()" title="Supprimer">Supprimer</a>
+							<form method="POST" id="form_delete_address_{{address.id}}" action="{{path('user.address.delete', {'id':address.id})}}">
+								<input type="hidden" name="csrf_token" value="{{csrf_token('delete_address_'~address.id)}}">
+								<input type="hidden" name="_method" value="delete">
+							</form>
+							<a class='btn btn-info' href="#">Definir par defaut</a>
+						</div>
+						<!-- Fin boutton -->
+
+					</div>
+				</div>
+			{% endfor %}
+			<!-- Fin Card pour les nouvelles adresses -->
+
+
 		</div>
 
 
