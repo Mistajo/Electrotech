@@ -1,0 +1,46 @@
+{% extends "themes/base_user.html.twig" %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block description %}ElectroTech, entreprise de ecommerce spécialisée dans la vente de produits electroménagers.
+{% endblock %}
+
+{% block keywords %}ElectroTech, Qui sommes-nous, Produits électroménagers, Curseur de riz, Machine à laver
+{% endblock %}
+
+{% block main %}
+	<div
+		class="container my-3">
+
+		<!-- Breadcrumb-->
+		<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-1 my-4'>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{path('user.home.index')}}">Tableau de bord</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">Vos commandes</li>
+			</ol>
+		</nav>
+		<!-- Fin Breadcrumb-->
+
+		<!-- Titre de la page-->
+		<h1 class="my-3 display-5">Vos commandes
+		</h1>
+		<!-- Fin Titre de la page-->
+
+		<!--Alerte Flash-->
+		<div class="col-md-6 mx-auto">
+			{% for message in app.flashes('success') %}
+				<div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		</div>
+		<!--Fin Alerte Flash-->
+
+
+	</div>
+
+{% endblock %}
