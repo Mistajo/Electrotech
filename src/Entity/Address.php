@@ -133,6 +133,14 @@ class Address
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $defaultAddress = null;
+
+    public function __construct()
+    {
+        $this->defaultAddress = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -278,6 +286,20 @@ class Address
     public function setAddress(string $address): static
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function isDefaultAddress(): ?bool
+    {
+        return $this->defaultAddress;
+    }
+
+    public function setDefaultAddress(?bool $defaultAddress): static
+    {
+
+
+        $this->defaultAddress = $defaultAddress;
 
         return $this;
     }

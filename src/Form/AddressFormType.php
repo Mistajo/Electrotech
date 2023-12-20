@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Address;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,11 @@ class AddressFormType extends AbstractType
             ->add('country', TextType::class)
             ->add('postalCode', TextType::class)
             ->add('compagny', TextType::class)
-            ->add('Complement', TextareaType::class);
+            ->add('Complement', TextareaType::class)
+            ->add('defaultAddress', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Faire de cette adresse mon adresse par défaut'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

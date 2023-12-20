@@ -14,13 +14,13 @@
 
 		<!-- Breadcrumb-->
 		{# <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-5 my-4'>
-																																																																													<ol class="breadcrumb">
-																																																																														<li class="breadcrumb-item">
-																																																																															<a href="{{path('user.home.index')}}">Tableau de bord</a>
-																																																																														</li>
-																																																																														<li class="breadcrumb-item active" aria-current="page">Vos adresses</li>
-																																																																													</ol>
-																																																																												</nav> #}
+																																																																																																													<ol class="breadcrumb">
+																																																																																																														<li class="breadcrumb-item">
+																																																																																																															<a href="{{path('user.home.index')}}">Tableau de bord</a>
+																																																																																																														</li>
+																																																																																																														<li class="breadcrumb-item active" aria-current="page">Vos adresses</li>
+																																																																																																													</ol>
+																																																																																																												</nav> #}
 		<!-- Fin Breadcrumb-->
 
 		<!-- Titre de la page-->
@@ -115,6 +115,16 @@
 				</div>
 			</div>
 			<!-- Fin Compagny et Commentaires -->
+
+			<!-- Adresse par defaut -->
+			<div class="row">
+				<div class="mb-3">
+					{{ form_widget(form.defaultAddress) }}
+					<label for="">Faire de cette adresse mon adresse par défaut</label>
+					<div class="text-danger">{{ form_errors(form.defaultAddress) }}</div>
+				</div>
+			</div>
+			<!-- Fin Adresse par defaut -->
 
 			<div class="mb-3">
 				<input formnovalidate type="submit" class="btn btn-primary" value="Créer">

@@ -61,9 +61,12 @@
 			{% for address in addresses %}
 				<div class="col-md-4">
 					<div class="card mb-3 _card_adresses">
-						<div class="card-header bg-primary">
-							Featured
-						</div>
+
+						{% if address.defaultAddress %}
+							<div class="card-header bg-primary">
+								Featured
+							</div>
+						{% endif %}
 						<div class="card-body">
 							<strong>
 								{{address.firstname}}
@@ -89,12 +92,14 @@
 						<!-- Boutton  -->
 						<div class="d-flex justify-content-between mx-2 my-2">
 							<a href="{{path('user.address.edit',{'id': address.id})}}" class="btn btn-primary">Modifier</a>
-							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette adresse?') && document.querySelector('#form_delete_address_{{address.id}}').submit()" title="Supprimer">Supprimer</a>
-							<form method="POST" id="form_delete_address_{{address.id}}" action="{{path('user.address.delete', {'id':address.id})}}">
-								<input type="hidden" name="csrf_token" value="{{csrf_token('delete_address_'~address.id)}}">
-								<input type="hidden" name="_method" value="delete">
-							</form>
-							<a class='btn btn-info' href="#">Definir par defaut</a>
+							{% if address.defaultAddress is empty %}
+								<a href="#" class="btn btn-danger" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette adresse?') && document.querySelector('#form_delete_address_{{address.id}}').submit()" title="Supprimer">Supprimer</a>
+								<form method="POST" id="form_delete_address_{{address.id}}" action="{{path('user.address.delete', {'id':address.id})}}">
+									<input type="hidden" name="csrf_token" value="{{csrf_token('delete_address_'~address.id)}}">
+									<input type="hidden" name="_method" value="delete">
+								</form>
+								<a class='btn btn-info' href="{{path("user.defaultaddress.edit",{'id': address.id})}}">Definir par defaut</a>
+							{% endif %}
 						</div>
 						<!-- Fin boutton -->
 
