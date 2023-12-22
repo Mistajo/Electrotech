@@ -14,13 +14,13 @@
 
 		<!-- Breadcrumb-->
 		{# <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class='mx-5 my-4'>
-																																																																																					<ol class="breadcrumb">
-																																																																																						<li class="breadcrumb-item">
-																																																																																							<a href="{{path('user.home.index')}}">Tableau de bord</a>
-																																																																																						</li>
-																																																																																						<li class="breadcrumb-item active" aria-current="page">Vos adresses</li>
-																																																																																					</ol>
-																																																																																				</nav> #}
+																																																																																									<ol class="breadcrumb">
+																																																																																										<li class="breadcrumb-item">
+																																																																																											<a href="{{path('user.home.index')}}">Tableau de bord</a>
+																																																																																										</li>
+																																																																																										<li class="breadcrumb-item active" aria-current="page">Vos adresses</li>
+																																																																																									</ol>
+																																																																																								</nav> #}
 		<!-- Fin Breadcrumb-->
 
 		<!-- Titre de la page-->
@@ -126,10 +126,11 @@
 			</div>
 			<!-- Fin Adresse par defaut -->
 
-
+			<!-- Bouton de validation du formulaire -->
 			<div class="mb-3">
 				<input formnovalidate type="submit" class="btn btn-primary" value="Modifier">
 			</div>
+			<!-- Fin Bouton de validation du formulaire -->
 
 
 			{{ form_end(form) }}
