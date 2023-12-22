@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller\Visitor\Registration;
 
 
@@ -32,8 +33,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
 
-        if ($this->getUser()) 
-        {
+        if ($this->getUser()) {
             return $this->redirectToRoute('visitor.welcome.index');
         }
 
@@ -41,8 +41,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $passwordHashed = $userPasswordHasher->hashPassword($user, $form->get('password')->getData());
             $user->setPassword($passwordHashed);
@@ -51,9 +50,11 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('visitor.registration.verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'visitor.registration.verify_email',
+                $user,
                 (new TemplatedEmail())
-                    ->from(new Address('contact@electrotech.com', 'Service client d\'ElectroTech'))
+                    ->from(new Address('electrotech@gmail.com', 'Service client d\'ElectroTech'))
                     ->to($user->getEmail())
                     ->subject('Vérification du compte par email')
                     ->htmlTemplate('emails/confirmation_email.html.twig')
@@ -68,8 +69,8 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register/waiting-for-email-verification', name: 'visitor.registration.waiting_for_email_verification', methods:['GET'])]
-    public function waitingForEmailVerification() : Response
+    #[Route('/register/waiting-for-email-verification', name: 'visitor.registration.waiting_for_email_verification', methods: ['GET'])]
+    public function waitingForEmailVerification(): Response
     {
         return $this->render("pages/visitor/registration/waiting_for_email_verification.html.twig");
     }
@@ -77,33 +78,27 @@ class RegistrationController extends AbstractController
 
     #[Route('/register/verify-email', name: 'visitor.registration.verify_email', methods: ['GET'])]
     public function verifyUserEmail(
-        Request $request, 
-        TranslatorInterface $translator, 
+        Request $request,
+        TranslatorInterface $translator,
         UserRepository $userRepository,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $id = $request->query->get('id');
 
-        if (null === $id) 
-        {
+        if (null === $id) {
             return $this->redirectToRoute('visitor.registration.register');
         }
 
         $user = $userRepository->find($id);
 
-        if (null === $user) 
-        {
+        if (null === $user) {
             return $this->redirectToRoute('visitor.registration.register');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
-        try 
-        {
+        try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
-        } 
-        catch (VerifyEmailExceptionInterface $exception)
-        {
+        } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('visitor.registration.register');

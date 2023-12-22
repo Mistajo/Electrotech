@@ -1,0 +1,87 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block description %}ElectroTech, entreprise de ecommerce spécialisée dans la vente de produits electroménagers.
+{% endblock %}
+
+{% block keywords %}ElectroTech, Qui sommes-nous, Produits électroménagers, Curseur de riz, Machine à laver
+{% endblock %}
+
+{% block jquery%}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% endblock %}
+
+{% block main %}
+	<div
+		class="container my-2">
+
+		<!-- Titre de la page -->
+		<h1 class="text-center my-3 display-5">Liste des Categories</h1>
+		<!-- Fin Titre de la page -->
+
+		<!--Alerte Flash-->
+		<div class="col-md-6 mx-auto">
+			{% for message in app.flashes('success') %}
+				<div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		</div>
+		<!--Fin Alerte Flash-->
+
+
+		<div
+			class="row">
+			<!-- Card Creation nouvelle Categorie-->
+			<div class="col-md-4 my-2 radius">
+				<a class=" text-decoration-none" href="{{path('admin.category.create')}}">
+					<div class="card mb-3 _card_category">
+						<div class="card-body text-center">
+							<i class="fa-solid fa-plus text-center-black mt-5"></i>
+							<h5 class="card-title text-center-black  ">Ajouter une categorie</h5>
+						</div>
+					</div>
+				</a>
+			</div>
+			<!-- Fin Card Creation nouvelle Categorie-->
+
+			<!-- Card Pour les nouvelles adresse -->
+			{% for category in categories %}
+				<div class="col-md-4 my-2 radius">
+					<div class="card mb-3 _card_category">
+						<div class="card-body text-center">
+							<strong>
+								{{category.name}}
+							</strong>
+							{% if category.description is not empty %}
+								<br>
+								{{category.description}}
+							{% endif %}
+						</div>
+
+						<!-- Boutton  -->
+						<div class="d-flex justify-content-center align-items-center mx-2 my-2">
+							<a href="{{path('admin.category.edit',{'id': category.id})}}" class="btn btn-primary">Modifier</a>
+							<a href="#" class="btn btn-danger ms-auto" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette categorie?') && document.querySelector('#form_delete_category_{{category.id}}').submit()" title="Supprimer">Supprimer</a>
+							<form method="POST" id="form_delete_category_{{category.id}}" action="{{path('admin.category.delete',{'id': category.id})}}">
+								<input type="hidden" name="csrf_token" value="{{csrf_token('delete_category_'~category.id)}}">
+								<input type="hidden" name="_method" value="delete">
+							</form>
+						</div>
+						<!-- Fin boutton -->
+
+					</div>
+				</div>
+			{% endfor %}
+			<!-- Fin Card pour les nouvelles categories -->
+
+
+		</div>
+
+
+	</div>
+{% endblock %}
