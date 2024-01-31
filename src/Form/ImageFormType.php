@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -15,15 +16,9 @@ class ImageFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('imageFile', VichImageType::class, [
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image',
                 'required' => false,
-                'allow_delete' => true,
-                'delete_label' => 'Supprimer l\'image',
-                'download_label' => false,
-                'download_uri' => false,
-                'image_uri' => false,
-                'imagine_pattern' => false,
-                'asset_helper' => true,
             ]);
     }
 

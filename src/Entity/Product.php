@@ -10,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[UniqueEntity('reference', message: "Cette référence existe déjà. Veuillez en choisir une autre.")]
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
@@ -54,6 +57,7 @@ class Product
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
+    #[Assert\NotBlank(message: "La description courte est obligatoire.")]
     #[Assert\Length(
         max: 500,
         maxMessage: 'La description courte ne doit pas dépasser {{ limit }} caractères.',
@@ -61,6 +65,7 @@ class Product
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $shortDescription = null;
 
+    #[Assert\NotBlank(message: "La description longue est obligatoire.")]
     #[Assert\Length(
         max: 1000,
         maxMessage: 'La description longue ne doit pas dépasser {{ limit }} caractères.',
@@ -83,7 +88,7 @@ class Product
 
     #[Assert\NotBlank(message: "Le prix de vente est obligatoire.")]
     #[Assert\Regex(
-        pattern: "[0-9]{1,}[.,]{0,1}[0-9]{0,2}",
+        pattern: "/[0-9]{1,}[.,]{0,1}[0-9]{0,2}/",
         match: true,
         message: 'Le prix de vente doit contenir uniquement des chiffres et un point.',
     )]
@@ -91,7 +96,7 @@ class Product
     private ?float $sellingPrice = null;
 
     #[Assert\Regex(
-        pattern: "[0-9]{1,}[.,]{0,1}[0-9]{0,2}",
+        pattern: "/[0-9]{1,}[.,]{0,1}[0-9]{0,2}/",
         match: true,
         message: 'Le prix de la promo doit contenir uniquement des chiffres et un point.',
     )]
@@ -100,7 +105,7 @@ class Product
 
     #[Assert\NotBlank(message: "La quantité est obligatoire.")]
     #[Assert\Regex(
-        pattern: "^\d+$",
+        pattern: "/^\d+$/",
         match: true,
         message: 'La quantité doit contenir uniquement des chiffres et un point.',
     )]
@@ -127,11 +132,27 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Assert\NotBlank(message: "La catégorie est obligatoire.")]
+    #[Assert\Type(
+        type: Category::class,
+        message: "Veuillez entrer une catégorie valide.",
+    )]
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
     private Collection $category;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
     private Collection $images;
+
+    #[Assert\File(
+        maxSize: '4096k',
+        extensions: ['jpeg', 'jpg', 'png', 'webp'],
+        extensionsMessage: "Seuls les formats d'images jpeg, jpg, png, webp sont autorisés.",
+    )]
+    #[Vich\UploadableField(mapping: 'product_image', fileNameProperty: 'Image')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $Image = null;
 
     public function __construct()
     {
@@ -365,6 +386,31 @@ class Product
     }
 
     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
      * @return Collection<int, Image>
      */
     public function getImages(): Collection
@@ -375,7 +421,7 @@ class Product
     public function addImage(Image $image): static
     {
         if (!$this->images->contains($image)) {
-            $this->images->add($image);
+            $this->images[] = $image;
             $image->setProduct($this);
         }
 
@@ -384,12 +430,25 @@ class Product
 
     public function removeImage(Image $image): static
     {
-        if ($this->images->removeElement($image)) {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
             if ($image->getProduct() === $this) {
                 $image->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->Image;
+    }
+
+    public function setImage(?string $Image): static
+    {
+        $this->Image = $Image;
 
         return $this;
     }

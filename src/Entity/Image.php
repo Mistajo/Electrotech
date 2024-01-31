@@ -10,8 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
+
 #[UniqueEntity('name', message: "Ce nom existe déjà. Veuillez en choisir une autre.")]
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
 {
@@ -36,13 +37,13 @@ class Image
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+    #[Assert\File(
+        maxSize: '4096k',
+        extensions: ['jpeg', 'jpg', 'png', 'webp'],
+        extensionsMessage: "Seuls les formats d'images jpeg, jpg, png, webp sont autorisés.",
+    )]
+    #[Vich\UploadableField(mapping: 'product_image', fileNameProperty: 'name')]
     private ?File $imageFile = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?string $imageName = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $imageSize = null;
 
 
     #[Gedmo\Timestampable(on: 'create')]
@@ -107,25 +108,6 @@ class Image
         return $this->imageFile;
     }
 
-    public function setImageName(?string $imageName): void
-    {
-        $this->imageName = $imageName;
-    }
-
-    public function getImageName(): ?string
-    {
-        return $this->imageName;
-    }
-
-    public function setImageSize(?int $imageSize): void
-    {
-        $this->imageSize = $imageSize;
-    }
-
-    public function getImageSize(): ?int
-    {
-        return $this->imageSize;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

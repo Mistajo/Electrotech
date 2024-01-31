@@ -42,14 +42,18 @@
 
 
 		{# Chargement de bootstrap de de ma feuille de style #}
-		{% block stylesheets %}
+		{% block webpack_encore_stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
 		{# Chargement du js #}
-		{% block javascripts %}
+		{% block webpack_encore_javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+
+		{% block jQuery %}{% endblock %}
+
+		{% block select2 %}{% endblock %}
 
 	</head>
 	<body
@@ -191,6 +195,8 @@
 				</div>
 			</footer>
 
+			<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+			{% block javascripts %}{% endblock %}
 
 		</body>
 	</html>

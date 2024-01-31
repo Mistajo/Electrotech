@@ -22,34 +22,34 @@
 		<h1 class="text-center my-3 display-5">Modifier cette categorie</h1>
 		<!-- Fin Titre de la page -->
 
-		<!-- Formulaire de modification d'une category -->
-		<div class=" d-flex justify-content-center align-items-center shadow my-5">
-			{{ form_start(form) }}
-			<!-- nom -->
-			<div class="mb-3 mt-3">
-				<label for="">Nom :</label>
-				<div class="text-danger">{{ form_errors(form.name) }}</div>
-				{{ form_widget(form.name,{'attr':{'class': 'form-control'}}) }}
-			</div>
-			<!-- nom -->
-
-			<!-- Adresse -->
-			<div class="mb-3">
-				<label for="">Description :</label>
-				<div class="text-danger">{{ form_errors(form.description) }}</div>
-				{{ form_widget(form.description,{'attr':{'class': 'form-control'}}) }}
-			</div>
-			<!-- Fin Adresse -->
-
-			<!-- Bouton de validation du formulaire -->
-			<div class="mb-3">
-				<input formnovalidate type="submit" class="btn btn-primary" value="Modifier">
-			</div>
-			<!-- Fin Bouton de validation du formulaire -->
-
-
-			{{ form_end(form) }}
-		</div>
+	<!-- Formulaire de modification d'une category -->
+		{# <div class=" d-flex justify-content-center align-items-center shadow my-5">
+					{{ form_start(form) }}
+					<!-- nom -->
+					<div class="mb-3 mt-3">
+						<label for="">Nom :</label>
+						<div class="text-danger">{{ form_errors(form.name) }}</div>
+						{{ form_widget(form.name,{'attr':{'class': 'form-control'}}) }}
+					</div>
+					<!-- nom -->
+		
+					<!-- Adresse -->
+					<div class="mb-3">
+						<label for="">Description :</label>
+						<div class="text-danger">{{ form_errors(form.description) }}</div>
+						{{ form_widget(form.description,{'attr':{'class': 'form-control'}}) }}
+					</div>
+					<!-- Fin Adresse -->
+		
+					<!-- Bouton de validation du formulaire -->
+					<div class="mb-3">
+						<input formnovalidate type="submit" class="btn btn-primary" value="Modifier">
+					</div>
+					<!-- Fin Bouton de validation du formulaire -->
+		
+		
+					{{ form_end(form) }}
+				</div> #}
 		<!-- Fin Formulaire de modification d'une category-->
 
 

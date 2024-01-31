@@ -34,7 +34,58 @@
 		<!--Fin Alerte Flash-->
 
 
-		<div class="row"></div>
+		<div
+			class="row">
+			<!-- Card Creation nouveau produit-->
+			<div class="col-md-4 my-2 radius">
+				<a class=" text-decoration-none" href="{{path('admin.product.create')}}">
+					<div class="card mb-3 _card_category">
+						<div class="card-body text-center">
+							<i class="fa-solid fa-plus text-center-black mt-5"></i>
+							<h5 class="card-title text-center-black  ">Ajouter un produit</h5>
+						</div>
+					</div>
+				</a>
+			</div>
+			<!-- Fin Card Creation nouvelle Categorie-->
+
+			<!-- Card Pour les nouvelles adresse -->
+			{% for product in products %}
+				<div class="col-md-4 my-2 radius">
+					<div class="card mb-3 _card_category">
+						<div class="card-body text-center">
+							Reference :
+							<strong>
+								{{product.reference}}
+							</strong><br>
+							<strong>
+								{{product.name}}
+							</strong>
+							<br>
+							{{product.shortDescription|u.truncate(70, '...')}}
+							<br>
+							{{product.longDescription|u.truncate(70, '...')}}
+							<br>
+							{{product.brand}}
+						</div>
+
+						{# <!-- Boutton  -->
+																																				<div class="d-flex justify-content-center align-items-center mx-2 my-2">
+																																					<a href="{{path('admin.category.edit',{'id': category.id})}}" class="btn btn-primary">Modifier</a>
+																																					<a href="#" class="btn btn-danger ms-auto" onclick="event.preventDefault(); return confirm('Voulez vous vraiment supprimer cette categorie?') && document.querySelector('#form_delete_category_{{category.id}}').submit()" title="Supprimer">Supprimer</a>
+																																					<form method="POST" id="form_delete_category_{{category.id}}" action="{{path('admin.category.delete',{'id': category.id})}}">
+																																						<input type="hidden" name="csrf_token" value="{{csrf_token('delete_category_'~category.id)}}">
+																																						<input type="hidden" name="_method" value="delete">
+																																					</form>
+																																				</div>
+																																				<!-- Fin boutton --> #}
+
+					</div>
+				</div>
+			{% endfor %}
+			<!-- Fin Card pour les nouvelles categories -->
+
+		</div>
 
 
 	</div>

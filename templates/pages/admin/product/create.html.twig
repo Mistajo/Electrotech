@@ -1,0 +1,144 @@
+{% extends "themes/base_admin.html.twig" %}
+
+{% block title %}Espace client
+{% endblock %}
+
+{% block description %}ElectroTech, entreprise de ecommerce spécialisée dans la vente de produits electroménagers.
+{% endblock %}
+
+{% block keywords %}ElectroTech, Qui sommes-nous, Produits électroménagers, Curseur de riz, Machine à laver
+{% endblock %}
+
+{% block jQuery %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block select2 %}
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script>
+		// In your Javascript (external .js resource or <script> tag)
+$(document).ready(function () {
+$('#product_form_category').select2();
+});
+	</script>
+
+
+{% endblock %}
+
+
+{% block main %}
+	<div
+		class="container my-2">
+
+		<!-- Titre de la page -->
+		<h1 class="text-center my-3 display-5">Nouveau Produit</h1>
+		<!-- Fin Titre de la page -->
+
+		<!-- Formulaire d'ajout d'une nouvelle adresse-->
+		<div class=" col-md-6 mx-auto d-flex justify-content-center align-items-center shadow my-5">
+			{{ form_start(form) }}
+
+			<!-- Reference et quantité -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Reference :</label>
+						<div class="text-danger">{{ form_errors(form.reference) }}</div>
+						{{ form_widget(form.reference,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Quantité :</label>
+						<div class="text-danger">{{ form_errors(form.quantity) }}</div>
+						{{ form_widget(form.quantity,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+			</div>
+			<!-- Fin Reference et quantité -->
+
+			<div class="mb-3">
+				<label for="">Catégorie</label>
+				<div class="text-danger">{{form_errors(form.category)}}</div>
+				{{form_widget(form.category, {'attr': {'class': 'form-control'}})}}
+			</div>
+
+
+			<!-- Name et brand -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">name :</label>
+						<div class="text-danger">{{ form_errors(form.name) }}</div>
+						{{ form_widget(form.name,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Marque :</label>
+						<div class="text-danger">{{ form_errors(form.brand) }}</div>
+						{{ form_widget(form.brand,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+			</div>
+			<!-- Fin name et brand -->
+
+			<!-- prix de vente et prix reduit -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Prix de vente :</label>
+						<div class="text-danger">{{ form_errors(form.sellingPrice) }}</div>
+						{{ form_widget(form.sellingPrice,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Prix réduit :</label>
+						<div class="text-danger">{{ form_errors(form.discountPrice) }}</div>
+						{{ form_widget(form.discountPrice,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+			</div>
+			<!-- Fin prix de vente et prix réduit -->
+
+			<!-- description courte et description longue -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Description courte :</label>
+						<div class="text-danger">{{ form_errors(form.shortDescription) }}</div>
+						{{ form_widget(form.shortDescription,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="mb-3">
+						<label for="">Description longue :</label>
+						<div class="text-danger">{{ form_errors(form.longDescription) }}</div>
+						{{ form_widget(form.longDescription,{'attr':{'class': 'form-control'}}) }}
+					</div>
+				</div>
+			</div>
+			<!-- Fin description courte et description longue -->
+
+
+			<div class="mb-3">
+				<label for="">Image:</label>
+				<div class="text-danger">{{ form_errors(form.imageFile) }}</div>
+				{{ form_widget(form.imageFile,{'attr':{'class': 'form-control'}}) }}
+			</div>
+
+
+			<div class="mb-3">
+				<input formnovalidate type="submit" class="btn btn-primary" value="Créer">
+			</div>
+
+
+			{{ form_end(form) }}
+		</div>
+		<!-- Fin Formulaire d'ajout d'une nouvelle adresse-->
+	</div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}
